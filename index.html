@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <div class="background-animation"></div>
+  <div class="black-overlay" id="black-overlay"></div>
+  <div class="container">
+    <a href="#" class="center-image" id="eye-link">
+      <img src="images/eye.gif" alt="Enter Site" class="hover-effect">
+    </a>
+  </div>
+  <div class="dialogue-container" id="dialogue-container" style="display: none;">
+    <div class="character-display">
+      <img src="images/Fair.png" alt="Fair" id="fair-image">
+    </div>
+    <div class="name-box" id="name-box"></div>
+    <div class="text-box">
+      <div class="text-content" id="text-content"></div>
+      <div class="continue-prompt" id="continue-prompt">
+        <img src="images/handcursur.gif" alt="Continue" class="cursor-gif">
+      </div>
+    </div>
+    <div class="full-image-container">
+      <img src="images/fair-full (1).png" alt="Fair Full" id="fair-full-image" class="fair-full-image">
+    </div>
+    <button class="skip-button" id="skip-button">Skip to Home</button>
+  </div>
+  <div class="content-warning-popup" id="content-warning-popup" style="display: none;">
+    <div class="popup-content">
+      <div class="loading-bar top"></div>
+      <h2><i class="fas fa-exclamation-triangle blink-icon"></i>Content Warning<i class="fas fa-exclamation-triangle blink-icon"></i></h2>
+      <div class="loading-bar bottom"></div>
+      <div class="warning-content">
+        <div class="warning-icons-row">
+          <div class="warning-icon">
+            <img src="images/BODYHORROR.gif" alt="Warning" class="warning-gif">
+            <span class="context-name">BODY HORROR</span>
+          </div>
+          <div class="warning-icon">
+            <img src="images/BLOOD.gif" alt="Warning" class="warning-gif">
+            <span class="context-name">BLOOD/GORE</span>
+          </div>
+          <div class="warning-icon">
+            <img src="images/NSFW.gif" alt="Warning" class="warning-gif">
+            <span class="context-name">NSFW</span>
+          </div>
+          <div class="warning-icon">
+            <img src="images/RELIGION.gif" alt="Warning" class="warning-gif">
+            <span class="context-name">RELIGION</span>
+          </div>
+          <div class="warning-icon">
+            <img src="images/TRAUMA.gif" alt="Warning" class="warning-gif">
+            <span class="context-name">TRAUMA</span>
+          </div>
+        </div>
+        <div class="warning-icons-row">
+          <div class="warning-icon">
+            <img src="images/SWEAR.gif" alt="Warning" class="warning-gif">
+            <span class="context-name">SWEARING</span>
+          </div>
+          <div class="warning-icon">
+            <img src="images/SH.gif" alt="Warning" class="warning-gif">
+            <span class="context-name">SELF-HARM</span>
+          </div>
+          <div class="warning-icon">
+            <img src="images/Animation.gif" alt="Warning" class="warning-gif">
+            <span class="context-name">PROBLEMATIC OC</span>
+          </div>
+          <div class="warning-icon">
+            <img src="images/DRUG.gif" alt="Warning" class="warning-gif">
+            <span class="context-name">DRUG USE</span>
+          </div>
+          <div class="warning-icon">
+            <img src="images/VIOLENCE.gif" alt="Warning" class="warning-gif">
+            <span class="context-name">VIOLENCE</span>
+          </div>
+        </div>
+ 
+        <div class="warning-text">
+          <p>This website contains content that may be disturbing or triggering to some viewers.</p>
+          <p>Please proceed with caution.</p>
+        </div>
+      </div>
+      <div class="popup-buttons">
+        <button class="popup-button" id="accept-button">I Understand</button>
+        <button class="popup-button" id="decline-button">Leave</button>
+      </div>
+    </div>
+  </div>
+  <audio id="bg-music" preload="auto" loop>
+    <source src="music/background.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="talking-sound" preload="auto">
+    <source src="music/Talking.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+  <script src="script.js"></script>
+  <div class="transition-overlay" id="transition-overlay">
+    <div class="transition-sparkle"></div>
+  </div>
+</body>
+</html>
