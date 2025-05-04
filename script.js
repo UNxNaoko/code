@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: "FAIR",
             text: "Welcome to my personal realm..",
             expression: "Fair- (32).png",
-            fullImage: "fair- (31).png"
+            fullImage: "Fair- (31).png"
         },
         { 
             name: "FAIR",
