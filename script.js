@@ -1,41 +1,108 @@
+// Ensure webcam window is always visible
+const webcamWindow = document.getElementById('webcam-window');
+const webcamTaskbarItem = document.querySelector('.taskbar-item[data-window="webcam"]');
+if (webcamWindow && webcamTaskbarItem) {
+    webcamWindow.style.display = 'block';
+    webcamTaskbarItem.style.display = 'flex';
+    webcamTaskbarItem.classList.add('active');
+}
+
+// Ensure notepad window is always visible
+const notepadWindow = document.getElementById('notepad-window');
+const notepadTaskbarItem = document.querySelector('.taskbar-item[data-window="notepad"]');
+if (notepadWindow && notepadTaskbarItem) {
+    notepadWindow.style.display = 'block';
+    notepadTaskbarItem.style.display = 'flex';
+    notepadTaskbarItem.classList.add('active');
+}
+
+// Ensure chatbox window is always visible
+const chatboxWindow = document.getElementById('chatbox-window');
+const chatboxTaskbarItem = document.querySelector('.taskbar-item[data-window="chatbox"]');
+if (chatboxWindow && chatboxTaskbarItem) {
+    chatboxWindow.style.display = 'block';
+    chatboxTaskbarItem.style.display = 'flex';
+    chatboxTaskbarItem.classList.add('active');
+}
+
+// Webcam glitch effect
+const webcamImage = document.querySelector('#webcam-window .window-content-inner img');
+if (webcamImage) {
+    const glitchGifs = [
+        'webcam/Fair-eeping.gif',
+        'webcam/Fair-horror.gif',
+        'webcam/Fair-yipee.gif',
+        'webcam/Fair-bored.gif'
+    ];
+
+    function applyWebcamGlitch() {
+        const randomGif = glitchGifs[Math.floor(Math.random() * glitchGifs.length)];
+        webcamImage.src = randomGif;
+
+        // Reset to the default gif after a short delay
+        setTimeout(() => {
+            webcamImage.src = 'webcam/Fair-bored.gif';
+        }, 3000); // Glitch lasts for 3 seconds
+    }
+
+    // Trigger the glitch effect at random intervals
+    setInterval(() => {
+        applyWebcamGlitch();
+    }, Math.random() * 5000 + 5000); // Random interval between 5-10 seconds
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const links = document.querySelectorAll('.nav-link');
     const skipButton = document.getElementById('skip-button');
     const contentWarningPopup = document.getElementById('content-warning-popup');
     const acceptButton = document.getElementById('accept-button');
     const declineButton = document.getElementById('decline-button');
-    
+
     // Add skip button functionality
-    skipButton.addEventListener('click', () => {
-        contentWarningPopup.style.display = 'flex';
-    });
-    
+    if (skipButton) {
+        skipButton.addEventListener('click', () => {
+            contentWarningPopup.style.display = 'flex';
+        });
+    } else {
+        console.error('Skip button not found');
+    }
+
     // Handle content warning popup buttons
-    acceptButton.addEventListener('click', () => {
-        contentWarningPopup.style.display = 'none';
-        const transitionOverlay = document.getElementById('transition-overlay');
-        transitionOverlay.style.display = 'block';
-        
-        // Play sparkle sound effect
-        const sparkleSound = new Audio('music/sparkle.mp3');
-        sparkleSound.volume = 0.5;
-        sparkleSound.play().catch(err => console.log('Could not play sparkle sound:', err));
-        
-        // Wait for animation to complete before redirecting
-        setTimeout(() => {
-            window.location.href = 'home.html';
-        }, 1500);
-    });
-    
-    declineButton.addEventListener('click', () => {
-        contentWarningPopup.style.display = 'none';
-        window.location.href = 'index.html';
-    });
-    
+    if (acceptButton && contentWarningPopup) {
+        acceptButton.addEventListener('click', () => {
+            contentWarningPopup.style.display = 'none';
+            const transitionOverlay = document.getElementById('transition-overlay');
+            if (transitionOverlay) {
+                transitionOverlay.style.display = 'block';
+            }
+
+            // Play sparkle sound effect
+            const sparkleSound = new Audio('music/sparkle.mp3');
+            sparkleSound.volume = 0.5;
+            sparkleSound.play().catch(err => console.log('Could not play sparkle sound:', err));
+
+            // Wait for animation to complete before redirecting
+            setTimeout(() => {
+                window.location.href = 'home.html';
+            }, 1500);
+        });
+    } else {
+        console.error('Accept button or content warning popup not found');
+    }
+
+    if (declineButton && contentWarningPopup) {
+        declineButton.addEventListener('click', () => {
+            contentWarningPopup.style.display = 'none';
+            window.location.href = 'index.html';
+        });
+    } else {
+        console.error('Decline button or content warning popup not found');
+    }
+
     links.forEach((link, index) => {
         link.style.opacity = '0';
         link.style.transform = 'translateY(10px)';
-        
+
         setTimeout(() => {
             link.style.transition = 'all 0.5s ease';
             link.style.opacity = '0.7';
@@ -52,6 +119,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const enterText = document.getElementById('enter-text');
     const bgMusic = document.getElementById('bg-music');
     const talkingSound = document.getElementById('talking-sound');
+    if (talkingSound) {
+        talkingSound.volume = 1;
+        talkingSound.loop = true;
+    } else {
+        console.error('Talking sound element not found');
+    }
     const nameBox = document.getElementById('name-box');
     const blackOverlay = document.getElementById('black-overlay');
     
@@ -128,9 +201,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let isTyping = false;
     
     // Configure audio
-    bgMusic.volume = 0.5;
-    talkingSound.volume = 1;
-    talkingSound.loop = true;
+    if (bgMusic) {
+        bgMusic.volume = 0.5;
+        bgMusic.load();
+    } else {
+        console.error('Background music element not found');
+    }
 
     function typeText(name, text, onComplete) {
         isTyping = true;
@@ -146,8 +222,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentSentence >= sentences.length) {
                 isTyping = false;
                 continuePrompt.style.display = 'block';
-                talkingSound.pause();
-                talkingSound.currentTime = 0;
+                if (talkingSound) {
+                    talkingSound.pause();
+                    talkingSound.currentTime = 0;
+                }
                 if (onComplete) onComplete();
                 return;
             }
@@ -156,8 +234,10 @@ document.addEventListener('DOMContentLoaded', () => {
             let i = 0;
             
             // Start talking sound for this sentence
-            talkingSound.currentTime = 0;
-            talkingSound.play();
+            if (talkingSound) {
+                talkingSound.currentTime = 0;
+                talkingSound.play();
+            }
             
             const typingInterval = setInterval(() => {
                 if (i < sentence.length) {
@@ -166,8 +246,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     clearInterval(typingInterval);
                     // Stop talking sound at end of sentence
-                    talkingSound.pause();
-                    talkingSound.currentTime = 0;
+                    if (talkingSound) {
+                        talkingSound.pause();
+                        talkingSound.currentTime = 0;
+                    }
                     
                     currentSentence++;
                     
@@ -332,8 +414,10 @@ document.addEventListener('DOMContentLoaded', () => {
             showNextDialogue();
         } else if (e.target.closest('.text-box') && isTyping) {
             // If clicked during typing, stop the sound immediately
-            talkingSound.pause();
-            talkingSound.currentTime = 0;
+            if (talkingSound) {
+                talkingSound.pause();
+                talkingSound.currentTime = 0;
+            }
         }
     });
     
@@ -397,5 +481,164 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 500);
 
     // Make sure background music is ready
-    document.getElementById('bg-music').load();
-}); 
+    if (bgMusic) {
+        bgMusic.load();
+    }
+
+    // Wait for the page to load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all desktop icons
+        const desktopIcons = document.querySelectorAll('.desktop-icon');
+        
+        // Add click event to each desktop icon
+        desktopIcons.forEach(function(icon) {
+            icon.addEventListener('click', function() {
+                const windowId = this.dataset.window;
+                toggleWindow(windowId);
+            });
+        });
+
+        // Get all close buttons
+        const closeButtons = document.querySelectorAll('.window-control.close');
+        
+        // Add click event to each close button
+        closeButtons.forEach(function(button) {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const windowId = this.dataset.window;
+                closeWindow(windowId);
+            });
+        });
+
+        // Get all taskbar items
+        const taskbarItems = document.querySelectorAll('.taskbar-item');
+        
+        // Add click event to each taskbar item
+        taskbarItems.forEach(function(item) {
+            item.addEventListener('click', function() {
+                const windowId = this.dataset.window;
+                toggleWindow(windowId);
+            });
+        });
+
+        // Make windows draggable
+        
+        // Ensure webcam window is always visible
+        const webcamWindow = document.getElementById('webcam-window');
+        const webcamTaskbarItem = document.querySelector('.taskbar-item[data-window="webcam"]');
+        if (webcamWindow && webcamTaskbarItem) {
+            webcamWindow.style.display = 'block';
+            webcamTaskbarItem.style.display = 'flex';
+            webcamTaskbarItem.classList.add('active');
+        }
+
+        // Ensure notepad window is always visible
+        const notepadWindow = document.getElementById('notepad-window');
+        const notepadTaskbarItem = document.querySelector('.taskbar-item[data-window="notepad"]');
+        if (notepadWindow && notepadTaskbarItem) {
+            notepadWindow.style.display = 'block';
+            notepadTaskbarItem.style.display = 'flex';
+            notepadTaskbarItem.classList.add('active');
+        }
+
+        const chatboxWindow = document.getElementById('chatbox-window');
+        const chatboxTaskbarItem = document.querySelector('.taskbar-item[data-window="chatbox"]');
+        const chatboxIcon = document.querySelector('.desktop-icon[data-window="chatbox"]');
+
+        if (chatboxIcon && chatboxWindow && chatboxTaskbarItem) {
+            chatboxIcon.addEventListener('click', () => {
+                toggleWindow('chatbox');
+            });
+
+            chatboxTaskbarItem.addEventListener('click', () => {
+                toggleWindow('chatbox');
+            });
+        }
+    });
+
+    // Update time and date in the taskbar
+    const taskbarTime = document.getElementById('taskbar-time');
+    const taskbarDate = document.getElementById('taskbar-date');
+
+    if (taskbarTime && taskbarDate) {
+        function updateTaskbarTime() {
+            const now = new Date();
+
+            // Format time as HH:MM:SS
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const timeString = `${hours}:${minutes}:${seconds}`;
+
+            // Format date as Day, Month DD
+            const options = { weekday: 'short', month: 'short', day: 'numeric' };
+            const dateString = now.toLocaleDateString('en-US', options);
+
+            taskbarTime.textContent = timeString;
+            taskbarDate.textContent = dateString;
+        }
+
+        updateTaskbarTime();
+        setInterval(updateTaskbarTime, 1000);
+    } else {
+        console.error('Taskbar time or date element not found');
+    }
+});
+
+// Simple window management
+function toggleWindow(windowId) {
+    const window = document.getElementById(windowId + '-window');
+    const taskbarItem = document.querySelector(`.taskbar-item[data-window="${windowId}"]`);
+
+    if (window && taskbarItem) {
+        // Show window
+        window.style.display = 'block';
+        taskbarItem.style.display = 'flex'; // Make sure taskbar item is visible
+        taskbarItem.classList.add('active');
+
+        // Bring window to front
+        document.querySelectorAll('.window').forEach(w => {
+            w.style.zIndex = '1';
+        });
+        window.style.zIndex = '2';
+    }
+}
+
+function closeWindow(windowId) {
+    const window = document.getElementById(windowId + '-window');
+    const taskbarItem = document.querySelector('.taskbar-item[data-window="' + windowId + '"]');
+
+    if (window && taskbarItem) {
+        window.style.display = 'none';
+        taskbarItem.style.display = 'none'; // Hide the taskbar item
+        taskbarItem.classList.remove('active');
+    }
+}
+
+// Initialize when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Add click handlers for desktop icons
+    document.querySelectorAll('.desktop-icon').forEach(function(icon) {
+        icon.addEventListener('click', function() {
+            const windowId = this.dataset.window;
+            toggleWindow(windowId);
+        });
+    });
+
+    // Add click handlers for taskbar items
+    document.querySelectorAll('.taskbar-item').forEach(function(item) {
+        item.addEventListener('click', function() {
+            const windowId = this.dataset.window;
+            toggleWindow(windowId);
+        });
+    });
+
+    // Add click handlers for close buttons
+    document.querySelectorAll('.window-control.close').forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.stopPropagation(); // Prevent the click from propagating to the window
+            const windowId = this.dataset.window;
+            closeWindow(windowId);
+        });
+    });
+});

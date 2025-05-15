@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm Behind You</title>
+    <link rel="preload" href="/fonts/DinkieBitmap-9pxDemo.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg-image"></div>
+    <div class="desktop-container">
+        <div class="desktop-icon" data-window="about">
+            <a href="about.html">
+                <img src="images/3d_graphics_file.png" alt="About">
+                <span>About</span>
+            </a>
+        </div>
+        <div class="desktop-icon" data-window="artwork">
+            <a href="artwork.html">
+                <img src="images/aseprite.png" alt="Artwork">
+                <span>Artwork</span>
+            </a>
+        </div>
+        <div class="desktop-icon" data-window="blog">
+            <a href="blog.html">
+                <img src="images/clock.png" alt="Blog">
+                <span>Blog</span>
+            </a>
+        </div>
+        <div class="desktop-icon" data-window="webcam">
+            <img src="images/video_movie_editor.png" alt="Webcam">
+            <span>Webcam</span>
+        </div>
+        <div class="desktop-icon" data-window="notepad">
+            <img src="images/notepad.png" alt="Notepad">
+            <span>Notepad</span>
+        </div>
+        <div class="desktop-icon" data-window="chatbox">
+            <img src="images/briefcase.png" alt="Chatbox">
+            <span>Chatbox</span>
+        </div>
+    </div>
+
+    <div id="webcam-window" class="window" style="display: block; left: auto; right: 10px; top: 10px; transform: none; width: 390px; height: auto; padding-bottom: 7px;">
+        <div class="window-header">
+            <div class="window-header-inner">
+                <div class="window-title">
+                    <img src="images/video_movie_editor.png" alt="Webcam">
+                    <span>Webcam</span>
+                </div>
+                <div class="window-controls">
+                    <div class="window-control minimize" data-window="webcam">-</div>
+                    <div class="window-control maximize" data-window="webcam">□</div>
+                    <div class="window-control close" data-window="webcam">×</div>
+                </div>
+            </div>
+        </div>
+        <div class="window-content" style="padding: 1px 5px;">
+            <div class="window-content-inner">
+                <img src="webcam/Fair-bored.gif" alt="Webcam Feed" style="width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated;">
+            </div>
+        </div>
+    </div>
+
+    <div id="chatbox-window" class="window" style="display: block; left: auto; right: 20px; top: 342px; transform: none;  padding-bottom: 7px;">
+        <div class="window-header">
+            <div class="window-header-inner">
+                <div class="window-title">
+                    <img src="images/briefcase.png" alt="Chatbox">
+                    <span>Chatbox</span>
+                </div>
+                <div class="window-controls">
+                    <div class="window-control minimize" data-window="chatbox">-</div>
+                    <div class="window-control maximize" data-window="chatbox">□</div>
+                    <div class="window-control close" data-window="chatbox">×</div>
+                </div>
+            </div>
+        </div>
+        <div class="window-content" style="padding: 0;">
+            <iframe src="https://iframe.chat/embed?chat=34004944" id="chattable" frameborder="none" style="width: 100%; height: 100%;"></iframe>
+        </div>
+    </div>
+
+    <div id="notepad-window" class="window">
+        <div class="window-header">
+            <div class="window-header-inner">
+                <div class="window-title">
+                    <img src="images/notepad.png" alt="Notepad">
+                    <span>Notepad</span>
+                </div>
+                <div class="window-controls">
+                    <div class="window-control minimize" data-window="notepad">-</div>
+                    <div class="window-control maximize" data-window="notepad">□</div>
+                    <div class="window-control close" data-window="notepad">×</div>
+                </div>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="window-content-inner">
+                <h2>Notepad</h2>
+            </div>
+        </div>
+    </div>
+    
+    <div class="taskbar">
+        <div class="start-button">
+            <img src="images/tools.png" alt="Start">
+            <span>START</span>
+        </div>
+        <div class="taskbar-item" data-window="webcam">
+            <img src="images/video_movie_editor.png" alt="Webcam">
+            <span>Webcam</span>
+        </div>
+        <div class="taskbar-item" data-window="notepad">
+            <img src="images/notepad.png" alt="Notepad">
+            <span>Notepad</span>
+        </div>
+        <div class="taskbar-item" data-window="chatbox">
+            <img src="images/briefcase.png" alt="Chatbox">
+            <span>Chatbox</span>
+        </div>
+        <div class="taskbar-time">
+            <span id="taskbar-time">12:34:56</span>
+            <span id="taskbar-date">Wed, Mar 15</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="https://iframe.chat/scripts/main.min.js"></script>
+    <script>
+      chattable.initialize({
+        stylesheet: "chattable.css"
+      });
+    </script>
+</body>
+</html>
