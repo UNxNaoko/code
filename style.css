@@ -1206,7 +1206,7 @@ a:hover {
     position: fixed;
     right: 20px; /* Ensure it stays above the taskbar */
     width: 17vw !important; /* Adjusted width */
-    height: 43vh !important; /* Adjusted height */
+    height: 45vh !important; /* Adjusted height */
     display: block !important; /* Ensure it is visible */
     z-index: 2;
     border: 3px solid #2d1786; /* Neon pink border */
