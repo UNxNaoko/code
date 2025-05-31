@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>I'm Behind You</title>
-    <link rel="preload" href="/fonts/DinkieBitmap-9pxDemo.ttf" as="font" type="font/ttf" crossorigin>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -42,7 +41,18 @@
         </div>
     </div>
 
-    <div id="webcam-window" class="window" style="display: block; left: auto; right: 10px; top: 10px; transform: none; width: 410px; height: auto; padding-bottom: 7px;">
+    <div class="desktop-container" style="left: 80px; top:4px;">
+        <div class="desktop-icon" data-window="notepad2">
+            <img src="images/notepad.png" alt="Notepad 2">
+            <span>Notepad</span>
+        </div>
+        <div class="desktop-icon" data-window="music-player">
+            <img src="images/music.png" alt="Music Player">
+            <span>Music</span>
+        </div>
+    </div>
+
+    <div id="webcam-window" class="window" style="display: block; left: auto; right: 10px; top: 10px; transform: none; width: 410px; height: auto; padding-bottom: 7px; z-index: 10;">
         <div class="window-header">
             <div class="window-header-inner">
                 <div class="window-title">
@@ -63,7 +73,7 @@
         </div>
     </div>
 
-    <div id="chatbox-window" class="window" style="display: block; left: auto; right: 20px; top: 352px; transform: none;  padding-bottom: 7px;">
+    <div id="chatbox-window" class="window" style="display: block; left: auto; right: 20px; top: 352px; transform: none;  padding-bottom: 7px; z-index: 10;">
         <div class="window-header">
             <div class="window-header-inner">
                 <div class="window-title">
@@ -82,7 +92,7 @@
         </div>
     </div>
 
-    <div id="notepad-window" class="window">
+    <div id="notepad-window" class="window" style="z-index: 10;">
         <div class="window-header">
             <div class="window-header-inner">
                 <div class="window-title">
@@ -98,11 +108,75 @@
         </div>
         <div class="window-content">
             <div class="window-content-inner">
-                <h2>Notepad</h2>
+                <h2>WELCOME</h2>
+                <hr> <br>
+                <p>Welcome to my personal website!!! This is uhhh my first time trying to code website on my own it might be uhhh kinda glitchy or silly <br> also it's most of the time there will be more elements adding to website</p>
+                <mark>also srry mobile user idk how to fix it I'm too eepy</mark>
+                <p>also this website is for portfolio/ keepign all my projects in one place, social medias and my lores</p>
             </div>
         </div>
     </div>
     
+    <div id="notepad2-window" class="window" style="display: block; left: auto; right: 450px; top: 10px; transform: none; width: 400px; height: auto; padding-bottom: 7px; z-index: 10;">
+        <div class="window-header">
+            <div class="window-header-inner">
+                <div class="window-title">
+                    <img src="images/notepad.png" alt="Notepad">
+                    <span>Notepad 2</span>
+                </div>
+                <div class="window-controls">
+                    <div class="window-control minimize" data-window="notepad2">-</div>
+                    <div class="window-control maximize" data-window="notepad2">□</div>
+                    <div class="window-control close" data-window="notepad2">×</div>
+                </div>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="window-content-inner">
+                <h2>Notepad 2</h2>
+                <hr> <br>
+                <p>Write your custom text here...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="music-player-window" class="window" style="display: block; left: 20px; bottom: 10px; transform: none; width: 400px; height: auto; padding-bottom: 7px; z-index: 10;">
+        <div class="window-header">
+            <div class="window-header-inner">
+                <div class="window-title">
+                    <img src="images/music.png" alt="Music">
+                    <span>Music Player</span>
+                </div>
+                <div class="window-controls">
+                    <div class="window-control minimize" data-window="music-player">-</div>
+                    <div class="window-control maximize" data-window="music-player">□</div>
+                    <div class="window-control close" data-window="music-player">×</div>
+                </div>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="window-content-inner">
+                <div class="music-player-ui">
+                    <div class="music-controls">
+                        <button id="prev-track">⏮</button>
+                        <button id="play-pause">▶</button>
+                        <button id="next-track">⏭</button>
+                    </div>
+                    <div class="current-track-info">
+                        <span id="current-track-name">No track playing</span>
+                        <span id="current-track-time">0:00 / 0:00</span>
+                    </div>
+                    <div id="music-iframe-container">
+                        <iframe id="music-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                    <ul id="playlist">
+                        <!-- Playlist items will be dynamically added here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="taskbar">
         <div class="start-button">
             <img src="images/tools.png" alt="Start">

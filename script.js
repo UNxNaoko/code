@@ -16,6 +16,13 @@ if (notepadWindow && notepadTaskbarItem) {
     notepadTaskbarItem.classList.add('active');
 }
 
+// Ensure notepad2 window is always visible
+const notepad2Window = document.getElementById('notepad2-window');
+const notepad2TaskbarItem = document.querySelector('.taskbar-item[data-window="notepad2"]');
+if (notepad2Window) {
+    notepad2Window.style.display = 'block';
+}
+
 // Ensure chatbox window is always visible
 const chatboxWindow = document.getElementById('chatbox-window');
 const chatboxTaskbarItem = document.querySelector('.taskbar-item[data-window="chatbox"]');
@@ -583,6 +590,69 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error('Taskbar time or date element not found');
     }
+
+    // Handle START button click
+    const startButton = document.querySelector('.start-button');
+    let startMenuWindow = document.getElementById('start-menu-window');
+
+    // Create the START menu dynamically if it doesn't exist
+    if (!startMenuWindow) {
+        startMenuWindow = document.createElement('div');
+        startMenuWindow.id = 'start-menu-window';
+        startMenuWindow.className = 'start-menu';
+        startMenuWindow.style.display = 'none';
+        document.body.appendChild(startMenuWindow);
+
+        const apps = [
+            { name: 'Files', action: () => alert('Opening Files...') },
+            { name: 'Mail', action: () => alert('Opening Mail...') },
+            { name: '.Exe', action: () => alert('Launching .Exe...') },
+            { name: 'Vent Note', action: () => alert('Opening Vent Note...') },
+            { name: 'Settings', action: () => showSettingsPopup() },
+            { name: 'Quit', action: () => alert('Goodbye!') }
+        ];
+
+        apps.forEach(app => {
+            const appItem = document.createElement('div');
+            appItem.className = 'start-menu-item';
+            appItem.textContent = app.name;
+            appItem.addEventListener('click', app.action);
+            startMenuWindow.appendChild(appItem);
+        });
+    }
+
+    startButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const isVisible = startMenuWindow.style.display === 'block';
+        startMenuWindow.style.display = isVisible ? 'none' : 'block';
+
+        // Position the menu at the bottom-left of the screen
+        const startButtonRect = startButton.getBoundingClientRect();
+        startMenuWindow.style.left = `${startButtonRect.left}px`;
+        startMenuWindow.style.bottom = `${window.innerHeight - startButtonRect.bottom}px`;
+    });
+
+    document.addEventListener('click', (event) => {
+        if (startMenuWindow.style.display === 'block' && !startMenuWindow.contains(event.target) && !startButton.contains(event.target)) {
+            startMenuWindow.style.display = 'none';
+        }
+    });
+
+    function showSettingsPopup() {
+        const popup = document.createElement('div');
+        popup.className = 'settings-popup';
+        popup.textContent = "Nope, I'm too lazy.";
+        document.body.appendChild(popup);
+
+        setTimeout(() => {
+            popup.remove();
+        }, 3000); // Popup disappears after 3 seconds
+    }
+
+    // Ensure the START menu is created and functional
+    if (!document.body.contains(startMenuWindow)) {
+        console.error('START menu was not created properly.');
+    }
 });
 
 // Simple window management
@@ -615,6 +685,65 @@ function closeWindow(windowId) {
     }
 }
 
+// Handle window controls
+document.querySelectorAll('.window-control').forEach(control => {
+    control.addEventListener('click', (e) => {
+        const windowId = control.dataset.window;
+        const windowElement = document.getElementById(`${windowId}-window`);
+
+        if (control.classList.contains('close')) {
+            closeWindow(windowId);
+        } else if (control.classList.contains('minimize')) {
+            windowElement.style.display = 'none';
+        } else if (control.classList.contains('maximize')) {
+            windowElement.style.width = '100vw';
+            windowElement.style.height = '100vh';
+            windowElement.style.top = '0';
+            windowElement.style.left = '0';
+            windowElement.style.transform = 'none';
+        }
+    });
+});
+
+// Bring window to the front when clicked
+document.querySelectorAll('.window').forEach(window => {
+    window.addEventListener('mousedown', () => {
+        document.querySelectorAll('.window').forEach(w => w.classList.remove('active'));
+        window.classList.add('active');
+    });
+});
+
+// Ensure windows are brought to the front when toggled
+function toggleWindow(windowId) {
+    const windowElement = document.getElementById(`${windowId}-window`);
+    const taskbarItem = document.querySelector(`.taskbar-item[data-window="${windowId}"]`);
+
+    if (windowElement && taskbarItem) {
+        const isVisible = windowElement.style.display === 'block';
+        windowElement.style.display = isVisible ? 'none' : 'block';
+        taskbarItem.style.display = isVisible ? 'none' : 'flex';
+        taskbarItem.classList.toggle('active', !isVisible);
+
+        // Bring the window to the front
+        if (!isVisible) {
+            document.querySelectorAll('.window').forEach(w => w.classList.remove('active'));
+            windowElement.classList.add('active');
+        }
+    }
+}
+
+// Close a window
+function closeWindow(windowId) {
+    const windowElement = document.getElementById(`${windowId}-window`);
+    const taskbarItem = document.querySelector(`.taskbar-item[data-window="${windowId}"]`);
+
+    if (windowElement && taskbarItem) {
+        windowElement.style.display = 'none';
+        taskbarItem.style.display = 'none';
+        taskbarItem.classList.remove('active');
+    }
+}
+
 // Initialize when the page loads
 document.addEventListener('DOMContentLoaded', function() {
     // Add click handlers for desktop icons
@@ -642,3 +771,129 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Ensure all close buttons work
+document.querySelectorAll('.window-control.close').forEach(closeButton => {
+    closeButton.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent triggering other events
+        const windowId = closeButton.dataset.window;
+        closeWindow(windowId);
+    });
+});
+
+// Function to close a window
+function closeWindow(windowId) {
+    const windowElement = document.getElementById(`${windowId}-window`);
+    const taskbarItem = document.querySelector(`.taskbar-item[data-window="${windowId}"]`);
+
+    if (windowElement) {
+        windowElement.style.display = 'none';
+    }
+    if (taskbarItem) {
+        taskbarItem.style.display = 'none';
+        taskbarItem.classList.remove('active');
+    }
+}
+
+// Music player functionality
+const youtubeInput = document.getElementById('youtube-url');
+const playMusicButton = document.getElementById('play-music');
+const musicIframeContainer = document.getElementById('music-iframe-container');
+const musicIframe = document.getElementById('music-iframe');
+
+playMusicButton.addEventListener('click', () => {
+    const youtubeUrl = youtubeInput.value.trim();
+    if (youtubeUrl) {
+        const videoId = extractYouTubeVideoId(youtubeUrl);
+        if (videoId) {
+            musicIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            musicIframeContainer.style.display = 'block';
+        } else {
+            alert('Invalid YouTube URL. Please try again.');
+        }
+    }
+});
+
+function extractYouTubeVideoId(url) {
+    const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+}
+
+// Ensure music player window is always visible
+const musicPlayerWindow = document.getElementById('music-player-window');
+if (musicPlayerWindow) {
+    musicPlayerWindow.style.display = 'block';
+}
+
+// Music player functionality
+const playPauseButton = document.getElementById('play-pause');
+const prevTrackButton = document.getElementById('prev-track');
+const nextTrackButton = document.getElementById('next-track');
+const currentTrackName = document.getElementById('current-track-name');
+const currentTrackTime = document.getElementById('current-track-time');
+const playlistElement = document.getElementById('playlist');
+
+// Define the playlist
+const playlist = [
+    { name: "Song 1", url: "https://www.youtube.com/embed/VIDEO_ID_1", duration: "3:45" },
+    { name: "Song 2", url: "https://www.youtube.com/embed/VIDEO_ID_2", duration: "4:20" },
+    { name: "Song 3", url: "https://www.youtube.com/embed/VIDEO_ID_3", duration: "2:50" }
+];
+
+let currentTrackIndex = 0;
+let isPlaying = false;
+
+// Populate the playlist UI
+playlist.forEach((track, index) => {
+    const li = document.createElement('li');
+    li.textContent = `${track.name} (${track.duration})`;
+    li.dataset.index = index;
+    li.addEventListener('click', () => playTrack(index));
+    playlistElement.appendChild(li);
+});
+
+// Play the selected track
+function playTrack(index) {
+    currentTrackIndex = index;
+    const track = playlist[currentTrackIndex];
+    musicIframe.src = `${track.url}?autoplay=1`;
+    currentTrackName.textContent = track.name;
+    updatePlaylistUI();
+    isPlaying = true;
+    playPauseButton.textContent = "⏸";
+}
+
+// Update the playlist UI to highlight the current track
+function updatePlaylistUI() {
+    const items = playlistElement.querySelectorAll('li');
+    items.forEach((item, index) => {
+        item.classList.toggle('active', index === currentTrackIndex);
+    });
+}
+
+// Play or pause the current track
+playPauseButton.addEventListener('click', () => {
+    if (isPlaying) {
+        musicIframe.src = ""; // Stop the iframe
+        playPauseButton.textContent = "▶";
+    } else {
+        playTrack(currentTrackIndex); // Resume playing
+    }
+    isPlaying = !isPlaying;
+});
+
+// Play the previous track
+prevTrackButton.addEventListener('click', () => {
+    currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+    playTrack(currentTrackIndex);
+});
+
+// Play the next track
+nextTrackButton.addEventListener('click', () => {
+    currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+    playTrack(currentTrackIndex);
+});
+
+// Initialize the player with the first track
+playTrack(0);
