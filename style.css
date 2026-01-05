@@ -1488,3 +1488,204 @@ a:hover {
     text-align: center;
 }
 
+/* Login Overlay */
+#login-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+#login-container {
+    text-align: center;
+    color: #fff;
+    font-family: 'Zpix', monospace;
+    animation: slideDown 1s ease-out;
+}
+
+#login-container h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+#login-container p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+#login-container button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background: #7f3aff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#login-container button:hover {
+    background: #4830b6;
+}
+
+/* Login Screen */
+#login-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1e1e2e, #3a3a5e);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    animation: fadeIn 1s ease-in-out;
+}
+
+#login-header {
+    text-align: center;
+    color: #fff;
+    font-family: 'Zpix', monospace;
+    margin-bottom: 20px;
+}
+
+#login-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+#login-header p {
+    font-size: 1.2rem;
+    color: #ccc;
+}
+
+#user-selection {
+    display: flex;
+    gap: 30px;
+}
+
+.user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;
+}
+
+.user span {
+    font-size: 1rem;
+    color: #fff;
+    font-family: 'Zpix', monospace;
+}
+
+.user:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.user img:hover {
+    transform: scale(1.2);
+}
+
+/* Code Screen */
+#code-screen {
+    color: #fff;
+    font-family: 'Courier New', monospace;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    text-align: left;
+    width: 90%;
+    max-width: 1800px;
+    height: 90%;
+    overflow: hidden;
+    border: 2px solid #fff;
+    padding: 20px;
+    box-sizing: border-box;
+    background: #000;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+
+}
+
+/* Fade-in animation for text */
+@keyframes textFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.text-line {
+    opacity: 0;
+    animation: textFadeIn 0.5s ease-in-out forwards, blink 1.2s infinite;
+}
+
+/* Blinking animation for text */
+@keyframes blink {
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Fade-out animation */
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* Fade-out animation */
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+/* Slide-down animation */
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+

@@ -7,6 +7,31 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="login-screen">
+        <div id="login-header">
+            <h1>Welcome to Your System</h1>
+            <p>Select a user to log in</p>
+        </div>
+        <div id="user-selection">
+            <div class="user" data-user="user1">
+                <img src="images/user1.png" alt="User 1">
+                <span>User 1</span>
+            </div>
+            <div class="user" data-user="user2">
+                <img src="images/user2.png" alt="User 2">
+                <span>User 2</span>
+            </div>
+            <div class="user" data-user="user3">
+                <img src="images/user3.png" alt="User 3">
+                <span>User 3</span>
+            </div>
+        </div>
+    </div>
+    <div id="login-overlay">
+        <div id="code-screen">
+            <pre id="boot-sequence"></pre>
+        </div>
+    </div>
     <div class="bg-image"></div>
     <div class="desktop-container">
         <div class="desktop-icon" data-window="about">
@@ -170,7 +195,7 @@
                         <iframe id="music-iframe" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                     </div>
                     <ul id="playlist">
-                        <!-- Playlist items will be dynamically added here -->
+                        
                     </ul>
                 </div>
             </div>
@@ -206,6 +231,103 @@
       chattable.initialize({
         stylesheet: "chattable.css"
       });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const playlist = [
+                { name: "POUND CAKE -THOT SQUAD", url: "https://www.youtube.com/embed/JWViInkIAuk" },
+                { name: "Monitoring covered by Isekaijoucho-", url: "https://www.youtube.com/embed/4maZBCx6ZpA" },
+                { name: "KITCHEN FORK || SLAY THE PRINCESS AMV -Jack Conte", url: "https://www.youtube.com/embed/QXh5rG1hQCo" },
+                { name: "spellcasting - dancing around in circles until my little feet fall off", url: "https://www.youtube.com/embed/3AgveSlcT0E" },
+                { name: "Retry now! -なきそ", url: "https://www.youtube.com/embed/3iUgKH8c7p4" },
+                { name: "Our Time - bo en, PAS TASTA", url: "https://www.youtube.com/embed/8fe-xBODpT4" }
+            ];
+
+            const playlistElement = document.getElementById("playlist");
+            const musicIframe = document.getElementById("music-iframe");
+            const currentTrackName = document.getElementById("current-track-name");
+            const playPauseButton = document.getElementById("play-pause");
+            const prevTrackButton = document.getElementById("prev-track");
+            const nextTrackButton = document.getElementById("next-track");
+
+            let currentTrackIndex = 0;
+            let isPlaying = false;
+
+            // Populate the playlist
+            playlist.forEach((track, index) => {
+                const li = document.createElement("li");
+                li.textContent = track.name;
+                li.dataset.index = index;
+                li.addEventListener("click", () => playTrack(index));
+                playlistElement.appendChild(li);
+            });
+
+            // Play the selected track
+            function playTrack(index) {
+                currentTrackIndex = index;
+                const track = playlist[currentTrackIndex];
+                musicIframe.src = `${track.url}?autoplay=1`; // Add autoplay parameter
+                currentTrackName.textContent = track.name;
+                updatePlaylistUI();
+                isPlaying = true;
+                playPauseButton.textContent = "⏸";
+            }
+
+            // Update the playlist UI to highlight the current track
+            function updatePlaylistUI() {
+                const items = playlistElement.querySelectorAll("li");
+                items.forEach((item, index) => {
+                    item.classList.toggle("active", index === currentTrackIndex);
+                });
+            }
+
+            // Play/pause functionality
+            playPauseButton.addEventListener("click", () => {
+                if (isPlaying) {
+                    musicIframe.src = ""; // Stop the iframe
+                    playPauseButton.textContent = "▶";
+                } else {
+                    playTrack(currentTrackIndex); // Resume playing
+                }
+                isPlaying = !isPlaying;
+            });
+
+            // Play the previous track
+            prevTrackButton.addEventListener("click", () => {
+                currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+                playTrack(currentTrackIndex);
+            });
+
+            // Play the next track
+            nextTrackButton.addEventListener("click", () => {
+                currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+                playTrack(currentTrackIndex);
+            });
+
+            // Initialize the player with the first track
+            playTrack(0);
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const musicPlayerWindow = document.getElementById("music-player-window");
+            const musicIcon = document.querySelector('.desktop-icon[data-window="music-player"]');
+
+            // Add click event to the music icon
+            musicIcon.addEventListener("click", () => {
+                if (musicPlayerWindow.style.display === "none") {
+                    musicPlayerWindow.style.display = "block"; // Show the music player
+                } else {
+                    musicPlayerWindow.style.display = "none"; // Hide the music player
+                }
+            });
+
+            // Add close functionality to the close button
+            const closeButton = document.querySelector('.window-control.close[data-window="music-player"]');
+            closeButton.addEventListener("click", () => {
+                musicPlayerWindow.style.display = "none"; // Hide the music player
+            });
+        });
     </script>
 </body>
 </html>

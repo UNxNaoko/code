@@ -655,6 +655,113 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+    const loginOverlay = document.getElementById("login-overlay");
+    const loginButton = document.getElementById("login-button");
+
+    loginButton.addEventListener("click", () => {
+        // Add fade-out animation
+        loginOverlay.style.animation = "fadeOut 1s ease-in-out forwards";
+
+        // Remove the overlay after the animation
+        setTimeout(() => {
+            loginOverlay.style.display = "none";
+        }, 1000); // Match the duration of the fadeOut animation
+    });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const loginScreen = document.getElementById("login-screen");
+    const users = document.querySelectorAll(".user");
+
+    users.forEach(user => {
+        user.addEventListener("click", () => {
+            const selectedUser = user.dataset.user;
+            console.log(`Logging in as ${selectedUser}`); // Replace with actual login logic
+
+            // Add fade-out animation
+            loginScreen.style.animation = "fadeOut 1s ease-in-out forwards";
+
+            // Remove the login screen after the animation
+            setTimeout(() => {
+                loginScreen.style.display = "none";
+            }, 1000); // Match the duration of the fadeOut animation
+        });
+    });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const loginOverlay = document.getElementById("login-overlay");
+    const bootSequence = document.getElementById("boot-sequence");
+
+    const bootMessages = [
+        "[    0.000000] Initializing SystemOS...",
+        "[    0.123456] Loading kernel modules...",
+        "[    0.234567] Checking hardware...",
+        "[    0.345678] Detecting connected devices...",
+        "[    0.456789] Starting services...",
+        "[    0.567890] Loading user interface...",
+        "[    0.678901] SystemOS ready. [  OK  ]"
+    ];
+
+    let currentMessage = 0;
+
+    function displayNextMessage() {
+        if (currentMessage < bootMessages.length) {
+            const line = document.createElement("div");
+            line.className = "text-line";
+            line.textContent = bootMessages[currentMessage];
+            bootSequence.appendChild(line);
+
+            currentMessage++;
+            setTimeout(displayNextMessage, 200); // Display each line quickly (200ms delay)
+        } else {
+            setTimeout(() => {
+                showLoadingGif(); // Show the GIF after the boot sequence finishes
+            }, 500); // Short delay before transitioning
+        }
+    }
+
+    function showLoadingGif() {
+        // Create a black overlay
+        const blackScreen = document.createElement("div");
+        blackScreen.style.position = "fixed";
+        blackScreen.style.top = "0";
+        blackScreen.style.left = "0";
+        blackScreen.style.width = "100%";
+        blackScreen.style.height = "100%";
+        blackScreen.style.backgroundColor = "black";
+        blackScreen.style.zIndex = "10000";
+        blackScreen.style.display = "flex";
+        blackScreen.style.justifyContent = "center";
+        blackScreen.style.alignItems = "center";
+
+        // Add the loading GIF
+        const loadingGif = document.createElement("img");
+        loadingGif.src = "images/loading.gif"; // Replace with the path to your loading GIF
+        loadingGif.alt = "Loading...";
+        loadingGif.style.width = "200px";
+        loadingGif.style.height = "200px";
+
+        blackScreen.appendChild(loadingGif);
+        document.body.appendChild(blackScreen);
+
+        // Remove the GIF and transition to the login screen after a short delay
+        setTimeout(() => {
+            blackScreen.style.animation = "fadeOut 1s ease-in-out forwards";
+            setTimeout(() => {
+                blackScreen.remove();
+                loginOverlay.style.animation = "fadeOut 1s ease-in-out forwards";
+                setTimeout(() => {
+                    loginOverlay.style.display = "none";
+                }, 1000); // Match the fadeOut duration
+            }, 10); // Duration of the fade-out animation
+        }, 3500); // Display the GIF for 1.5 seconds
+    }
+
+    displayNextMessage();
+});
+
 // Simple window management
 function toggleWindow(windowId) {
     const window = document.getElementById(windowId + '-window');
