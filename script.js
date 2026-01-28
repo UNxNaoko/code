@@ -671,26 +671,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    const loginScreen = document.getElementById("login-screen");
-    const users = document.querySelectorAll(".user");
-
-    users.forEach(user => {
-        user.addEventListener("click", () => {
-            const selectedUser = user.dataset.user;
-            console.log(`Logging in as ${selectedUser}`); // Replace with actual login logic
-
-            // Add fade-out animation
-            loginScreen.style.animation = "fadeOut 1s ease-in-out forwards";
-
-            // Remove the login screen after the animation
-            setTimeout(() => {
-                loginScreen.style.display = "none";
-            }, 1000); // Match the duration of the fadeOut animation
-        });
-    });
-});
-
-document.addEventListener("DOMContentLoaded", () => {
     const loginOverlay = document.getElementById("login-overlay");
     const bootSequence = document.getElementById("boot-sequence");
 
@@ -746,7 +726,7 @@ document.addEventListener("DOMContentLoaded", () => {
         blackScreen.appendChild(loadingGif);
         document.body.appendChild(blackScreen);
 
-        // Remove the GIF and transition to the login screen after a short delay
+        // Remove the GIF after a short delay, but keep login screen visible for user selection
         setTimeout(() => {
             blackScreen.style.animation = "fadeOut 1s ease-in-out forwards";
             setTimeout(() => {
@@ -754,9 +734,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 loginOverlay.style.animation = "fadeOut 1s ease-in-out forwards";
                 setTimeout(() => {
                     loginOverlay.style.display = "none";
+                    // Keep login screen visible for user to select
                 }, 1000); // Match the fadeOut duration
             }, 10); // Duration of the fade-out animation
-        }, 3500); // Display the GIF for 1.5 seconds
+        }, 3500); // Display the GIF for 3.5 seconds
     }
 
     displayNextMessage();
@@ -1002,5 +983,10 @@ nextTrackButton.addEventListener('click', () => {
     playTrack(currentTrackIndex);
 });
 
-// Initialize the player with the first track
-playTrack(0);
+// Initialize the player with the first track after animations complete
+document.addEventListener('DOMContentLoaded', () => {
+    // Wait 3 seconds to allow all animations to finish
+    setTimeout(() => {
+        playTrack(0);
+    }, 3000);
+});
